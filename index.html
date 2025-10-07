@@ -149,16 +149,16 @@ ${isActive
         return (
           <section className="relative h-[68vh] min-h-[520px] w-full">
             <div className="absolute inset-0 -z-10 overflow-hidden">
-              <img
+              <video
                 className="h-full w-full object-cover"
                 autoPlay
                 muted
                 loop
                 playsInline
-                poster="tausta.png"
+                poster='tausta.png'
               >
-                <source src="tausta.png" />
-              </img>
+                <source src='tausta.png' />
+              </video>
               <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/40 to-white" />
             </div>
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-end pb-20">
@@ -514,4 +514,3 @@ ${isActive
     </script>
   </body>
 </html>
-
