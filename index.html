@@ -222,10 +222,9 @@ ${isActive
       }
 
       function Gallery({ modalIdx, setModalIdx }) {
-      const images = Array.from({ length: 13 }, (_, i) =>
-        `/lautan_varauskalenteri/kuvat/kuva${i + 1}.jpeg`
-      );
-    
+        // Päivitetty 12 toimivaa Unsplash-kuvaa
+        const images = Array.from({ length: 13 }, (_, i) => `/lautan_varauskalenteri/kuvat/kuva${i + 1}.jpeg`);
+
         const shuffled = React.useMemo(() => images.slice().sort(() => 0.5 - Math.random()), []);
 
         React.useEffect(() => {
