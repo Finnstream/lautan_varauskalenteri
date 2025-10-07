@@ -1,231 +1,271 @@
-import React, { useEffect, useState } from "react";
+<!doctype html>
+<html lang="fi">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Saunalautta Kotkajärvi</title>
 
-export default function ReservationPage() {
-  const [atTop, setAtTop] = useState(true);
-  const [activeSection, setActiveSection] = useState("varaus");
+    <!-- Tailwind CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
 
-  useEffect(() => {
-    const handleScroll = () => {
-      setAtTop(window.scrollY < 40);
-      const sections = document.querySelectorAll("section[id]");
-      let current = "varaus";
-      sections.forEach((section) => {
-        const top = section.offsetTop - 120;
-        const height = section.offsetHeight;
-        if (window.scrollY >= top && window.scrollY < top + height) {
-          current = section.getAttribute("id");
-        }
-      });
-      setActiveSection(current);
-    };
+    <!-- Pikku apu-tyyli inputeille (koska Tailwindissa ei ole .input-luokkaa valmiina) -->
+    <style>
+      .input {
+        width: 100%;
+        border-radius: 0.75rem;
+        border: 1px solid rgb(226 232 240);
+        padding: 0.75rem 0.875rem;
+        outline: none;
+      }
+      .input:focus {
+        box-shadow: 0 0 0 2px rgb(15 23 42);
+      }
+      html { scroll-behavior: smooth; }
+    </style>
 
-    window.addEventListener("scroll", handleScroll);
-    handleScroll();
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+    <!-- React 18 + ReactDOM UMD CDN:llä -->
+    <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
 
-  return (
-    <div className="min-h-screen text-slate-900">
-      <TopBar />
-      <Header atTop={atTop} activeSection={activeSection} />
-      <Hero />
-      <main className="relative z-10 bg-white">
-        <Section id="varaus" title="Varaa risteily">
-          <div className="mt-8 flex justify-start max-w-6xl mx-auto">
-            <form className="p-6 rounded-2xl border border-slate-200 shadow-sm w-full max-w-xl ml-0">
-              <div className="grid gap-6 sm:grid-cols-2">
-                <label className="block">
-                  <span className="text-sm font-medium text-slate-700 mb-3 block">Henkilömäärä</span>
-                  <input type="number" min={1} className="input" placeholder="Esim. 4" />
-                </label>
-                <label className="block">
-                  <span className="text-sm font-medium text-slate-700 mb-3 block">Päivämäärä</span>
-                  <input type="date" className="input" />
-                </label>
-                <label className="block">
-                  <span className="text-sm font-medium text-slate-700 mb-3 block">Kellonaika</span>
-                  <input type="time" className="input" />
-                </label>
-                <label className="block">
-                  <span className="text-sm font-medium text-slate-700 mb-3 block">Sähköposti</span>
-                  <input type="email" className="input" placeholder="nimi@esimerkki.fi" />
-                </label>
-              </div>
-              <div className="mt-8">
-                <label className="block text-sm font-medium text-slate-700 mb-3">Erityistarpeet / Lisätiedot</label>
-                <textarea className="w-full rounded-xl border border-slate-300 p-3 focus:outline-none focus:ring-2 focus:ring-slate-900" rows={5} placeholder="Allergiat, esteettömyys, tarjoilutoiveet tms." />
-              </div>
-              <button type="button" className="mt-8 w-full sm:w-auto px-5 py-3 rounded-xl bg-slate-900 text-white hover:opacity-90">Lähetä varauspyyntö</button>
-            </form>
+    <!-- Babel Standalone, jotta JSX toimii selaimessa -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  </head>
+  <body class="bg-white">
+    <div id="root"></div>
+
+    <script type="text/babel">
+      const { useEffect, useState } = React;
+
+      function Logo() {
+        return (
+          <div className="relative h-12 w-12">
+            <svg viewBox="0 0 100 100" className="h-full w-full">
+              <defs>
+                <linearGradient id="g" x1="0" x2="1">
+                  <stop offset="0%" stopColor="#38bdf8" />
+                  <stop offset="100%" stopColor="#0ea5e9" />
+                </linearGradient>
+              </defs>
+              <circle cx="50" cy="50" r="46" fill="url(#g)" />
+              <rect x="25" y="40" width="50" height="20" rx="5" fill="white" />
+            </svg>
           </div>
-        </Section>
+        );
+      }
 
-        <Section id="aukioloajat" title="Aukioloajat">
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {[
-              { place: "Lauttaranta", hours: "Ma–Su 9:00–22:00" },
-              { place: "Saunatila", hours: "Ma–Su 10:00–23:00" },
-              { place: "Risteilypalvelu", hours: "Sopimuksen mukaan" },
-            ].map((item) => (
-              <div key={item.place} className="p-6 rounded-2xl border border-slate-200 shadow-sm">
-                <div className="text-lg font-semibold">{item.place}</div>
-                <div className="mt-2 text-slate-600">{item.hours}</div>
-              </div>
-            ))}
+      function TopBar() {
+        return (
+          <div className="w-full bg-gradient-to-r from-rose-500 via-orange-500 to-yellow-400 text-white text-sm font-semibold text-center py-2">
+            Ota yhteyttä:
+            <a href="mailto:lautta@gmail.com" className="underline hover:text-yellow-100 ml-1">
+              lautta@gmail.com
+            </a>
           </div>
-        </Section>
+        );
+      }
 
-        <Section id="tarjoukset" title="Tarjoukset">
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {["Risteilypaketti -15%", "Yölauttapaketti", "Sauna & illallinen"].map((deal) => (
-              <div key={deal} className="p-6 rounded-2xl border border-slate-200 shadow-sm bg-gradient-to-br from-emerald-50 to-teal-50">
-                <div className="text-lg font-semibold">{deal}</div>
-                <p className="mt-2 text-slate-700">Varaa elämyksellinen risteily ja säästä!</p>
-                <button className="mt-4 px-4 py-2 rounded-xl bg-slate-900 text-white hover:opacity-90">Hae tarjous</button>
-              </div>
-            ))}
-          </div>
-        </Section>
-
-        <Section id="tapahtumat" title="Lautan tarina">
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {[1, 2, 3].map((n) => (
-              <article key={n} className="rounded-2xl overflow-hidden border border-slate-200 shadow-sm">
-                <div className="h-40 bg-gradient-to-br from-blue-100 to-indigo-100" />
-                <div className="p-5">
-                  <h3 className="text-lg font-semibold">Lautan vaihe {n}</h3>
-                  <p className="mt-2 text-slate-600">Tässä osiossa kerrotaan saunalautan synnystä, sen rakentamisesta ja elämyksistä Kotkajärvellä.</p>
-                </div>
-              </article>
-            ))}
-          </div>
-        </Section>
-      </main>
-    </div>
-  );
-}
-
-function TopBar() {
-  return (
-    <div className="w-full bg-gradient-to-r from-rose-500 via-orange-500 to-yellow-400 text-white text-sm font-semibold text-center py-2">
-      Ota yhteyttä: <a href="mailto:lautta@gmail.com" className="underline hover:text-yellow-100 ml-1">lautta@gmail.com</a>
-    </div>
-  );
-}
-
-function Header({ atTop, activeSection }: { atTop: boolean; activeSection: string }) {
-  const navItems = [
-    { id: "varaus", label: "Varaa risteily" },
-    { id: "aukioloajat", label: "Aukioloajat" },
-    { id: "tarjoukset", label: "Tarjoukset" },
-    { id: "tapahtumat", label: "Lautan tarina" },
-  ];
-
-  return (
-    <header className={`fixed top-6 inset-x-0 z-50 transition-all ${atTop ? "bg-transparent text-white" : "bg-white/80 backdrop-blur text-slate-900"}`}>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex h-20 items-center justify-between gap-6">
-          <a href="#" className={`flex items-center gap-3 transition-opacity ${atTop ? "opacity-100" : "opacity-0 pointer-events-none"}`}>
-            <Logo />
-            <div className="hidden sm:block text-left drop-shadow">
-              <div className="text-xl font-extrabold tracking-tight">SAUNALAUTTA</div>
-              <div className="-mt-1 text-sm font-semibold">KOTKAJÄRVI</div>
-            </div>
-          </a>
-
-          <nav className="flex items-center gap-2 sm:gap-4 text-[15px] font-semibold">
-            {navItems.map((item) => {
-              const isActive = activeSection === item.id;
-              return (
+      function Header({ atTop, activeSection }) {
+        const navItems = [
+          { id: "varaus", label: "Varaa risteily" },
+          { id: "aukioloajat", label: "Aukioloajat" },
+          { id: "tarjoukset", label: "Tarjoukset" },
+          { id: "tapahtumat", label: "Lautan tarina" },
+        ];
+        return (
+          <header
+            className={`fixed top-6 inset-x-0 z-50 transition-all ${
+              atTop ? "bg-transparent text-white" : "bg-white/80 backdrop-blur text-slate-900"
+            }`}
+          >
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <div className="flex h-20 items-center justify-between gap-6">
                 <a
-                  key={item.id}
-                  href={`#${item.id}`}
-                  className={`px-4 py-2 rounded-lg transition-colors duration-200 ${
-                    isActive
-                      ? "bg-slate-900 text-white"
-                      : atTop
-                      ? "text-white hover:bg-white/20"
-                      : "text-slate-900 hover:bg-white/70 hover:backdrop-blur"
+                  href="#"
+                  className={`flex items-center gap-3 transition-opacity ${
+                    atTop ? "opacity-100" : "opacity-0 pointer-events-none"
                   }`}
                 >
-                  {item.label}
+                  <Logo />
+                  <div className="hidden sm:block text-left drop-shadow">
+                    <div className="text-xl font-extrabold tracking-tight">SAUNALAUTTA</div>
+                    <div className="-mt-1 text-sm font-semibold">KOTKAJÄRVI</div>
+                  </div>
                 </a>
-              );
-            })}
-          </nav>
 
-          <div className={`hidden md:flex items-center gap-4 transition-opacity ${atTop ? "opacity-100" : "opacity-0 pointer-events-none"}`}>
-            <GlobeIcon />
-            <button className="lang">FI</button>
-            <button className="lang">EN</button>
+                <nav className="flex items-center gap-2 sm:gap-4 text-[15px] font-semibold">
+                  {navItems.map((item) => {
+                    const isActive = activeSection === item.id;
+                    return (
+                      <a
+                        key={item.id}
+                        href={`#${item.id}`}
+                        className={`px-4 py-2 rounded-lg transition-colors duration-200 ${
+                          isActive
+                            ? "bg-slate-900 text-white"
+                            : atTop
+                            ? "text-white hover:bg-white/20"
+                            : "text-slate-900 hover:bg-white/70 hover:backdrop-blur"
+                        }`}
+                      >
+                        {item.label}
+                      </a>
+                    );
+                  })}
+                </nav>
+
+                <div
+                  className={`hidden md:flex items-center gap-4 transition-opacity ${
+                    atTop ? "opacity-100" : "opacity-0 pointer-events-none"
+                  }`}
+                >
+                  <button className="lang">FI</button>
+                  <button className="lang">EN</button>
+                </div>
+              </div>
+            </div>
+          </header>
+        );
+      }
+
+      function Hero() {
+        return (
+          <section className="relative h-[68vh] min-h-[520px] w-full">
+            <div className="absolute inset-0 -z-10 overflow-hidden">
+              <video
+                className="h-full w-full object-cover"
+                autoPlay
+                muted
+                loop
+                playsInline
+                poster="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=1920&auto=format&fit=crop"
+              >
+                <source
+                  src="https://cdn.coverr.co/videos/coverr-lake-waves-1080p.mp4"
+                  type="video/mp4"
+                />
+              </video>
+              <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/40 to-white" />
+            </div>
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-end pb-20">
+              <div className="text-white drop-shadow">
+                <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight">
+                  Varaa Ainutlaatuinen Saunalauttaristeily Kotkajärvellä
+                </h1>
+                <p className="mt-3 max-w-2xl text-white/90">
+                  Nauti järven rauhasta, lämpimästä saunasta ja hyvästä seurasta. Elämys, jota et
+                  unohda!
+                </p>
+              </div>
+            </div>
+          </section>
+        );
+      }
+
+      function Section({ id, title, children }) {
+        return (
+          <section id={id} className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+            <h2 className="text-3xl font-extrabold tracking-tight">{title}</h2>
+            <div className="mt-8">{children}</div>
+          </section>
+        );
+      }
+
+      function ReservationPage() {
+        const [atTop, setAtTop] = useState(true);
+        const [activeSection, setActiveSection] = useState("varaus");
+
+        useEffect(() => {
+          const handleScroll = () => {
+            setAtTop(window.scrollY < 40);
+            const sections = document.querySelectorAll("section[id]");
+            let current = "varaus";
+            sections.forEach((section) => {
+              const top = section.offsetTop - 120;
+              const height = section.offsetHeight;
+              if (window.scrollY >= top && window.scrollY < top + height) {
+                current = section.getAttribute("id");
+              }
+            });
+            setActiveSection(current);
+          };
+          window.addEventListener("scroll", handleScroll, { passive: true });
+          handleScroll();
+          return () => window.removeEventListener("scroll", handleScroll);
+        }, []);
+
+        return (
+          <div className="min-h-screen text-slate-900">
+            <TopBar />
+            <Header atTop={atTop} activeSection={activeSection} />
+            <Hero />
+            <main className="relative z-10 bg-white">
+              <Section id="varaus" title="Varaa risteily">
+                <div className="mt-8 flex justify-start">
+                  <form className="p-6 rounded-2xl border border-slate-200 shadow-sm w-full max-w-xl">
+                    <div className="grid gap-6 sm:grid-cols-2">
+                      <label className="block">
+                        <span className="text-sm font-medium text-slate-700 mb-2 block">Henkilömäärä</span>
+                        <input type="number" min={1} className="input" placeholder="Esim. 4" />
+                      </label>
+                      <label className="block">
+                        <span className="text-sm font-medium text-slate-700 mb-2 block">Päivämäärä</span>
+                        <input type="date" className="input" />
+                      </label>
+                      <label className="block">
+                        <span className="text-sm font-medium text-slate-700 mb-2 block">Kellonaika</span>
+                        <input type="time" className="input" />
+                      </label>
+                      <label className="block">
+                        <span className="text-sm font-medium text-slate-700 mb-2 block">Sähköposti</span>
+                        <input type="email" className="input" placeholder="nimi@esimerkki.fi" />
+                      </label>
+                    </div>
+                    <div className="mt-6">
+                      <label className="block text-sm font-medium text-slate-700 mb-2">
+                        Erityistarpeet / Lisätiedot
+                      </label>
+                      <textarea
+                        className="w-full rounded-xl border border-slate-300 p-3 focus:outline-none focus:ring-2 focus:ring-slate-900"
+                        rows={5}
+                        placeholder="Allergiat, esteettömyys, tarjoilutoiveet tms."
+                      />
+                    </div>
+                    <button
+                      type="button"
+                      className="mt-8 w-full sm:w-auto px-5 py-3 rounded-xl bg-slate-900 text-white hover:opacity-90"
+                      onClick={() => alert("Varauspyyntö lähetetty! (demo)")}
+                    >
+                      Lähetä varauspyyntö
+                    </button>
+                  </form>
+                </div>
+              </Section>
+
+              {/* Lisäosat, jotta navigointi toimii */}
+              <Section id="aukioloajat" title="Aukioloajat">
+                <p>Ma–Su 10:00–22:00 (esimerkki).</p>
+              </Section>
+
+              <Section id="tarjoukset" title="Tarjoukset">
+                <ul className="list-disc pl-6 space-y-2">
+                  <li>Arki-iltatarjous: -10% klo 18 jälkeen.</li>
+                  <li>Opiskelija-alennus: -15% voimassa olevan kortin kanssa.</li>
+                </ul>
+              </Section>
+
+              <Section id="tapahtumat" title="Lautan tarina">
+                <p>
+                  Kotkajärven saunalautta on rakennettu käsin ja se on palvellut asiakkaita vuodesta
+                  2024 lähtien. Tervetuloa kyytiin!
+                </p>
+              </Section>
+            </main>
           </div>
-        </div>
-      </div>
-    </header>
-  );
-}
+        );
+      }
 
-function Hero() {
-  return (
-    <section className="relative h-[68vh] min-h-[520px] w-full">
-      <div className="absolute inset-0 -z-10 overflow-hidden">
-        <video
-          className="h-full w-full object-cover"
-          autoPlay
-          muted
-          loop
-          playsInline
-          poster="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=1920&auto=format&fit=crop"
-        >
-          <source src="https://cdn.coverr.co/videos/coverr-lake-waves-1080p.mp4" type="video/mp4" />
-        </video>
-        <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/40 to-white" />
-      </div>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-end pb-20">
-        <div className="text-white drop-shadow">
-          <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight">Varaa Ainutlaatuinen Saunalauttaristeily Kotkajärvellä</h1>
-          <p className="mt-3 max-w-2xl text-white/90">Nauti järven rauhasta, lämpimästä saunasta ja hyvästä seurasta. Elämys, jota et unohda!</p>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function Section({ id, title, children }: { id: string; title: string; children: React.ReactNode }) {
-  return (
-    <section id={id} className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-      <h2 className="text-3xl font-extrabold tracking-tight mb-2">{title}</h2>
-      <div>{children}</div>
-    </section>
-  );
-}
-
-function Logo() {
-  return (
-    <div className="relative h-12 w-12">
-      <svg viewBox="0 0 100 100" className="h-full w-full">
-        <defs>
-          <linearGradient id="g" x1="0" x2="1">
-            <stop offset="0%" stopColor="#38bdf8" />
-            <stop offset="100%" stopColor="#0ea5e9" />
-          </linearGradient>
-        </defs>
-        <circle cx="50" cy="50" r="46" fill="url(#g)" />
-        <rect x="25" y="40" width="50" height="20" rx="5" fill="white" />
-      </svg>
-    </div>
-  );
-}
-
-function GlobeIcon() {
-  return (
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor">
-      <circle cx="12" cy="12" r="10" strokeWidth="1.5" />
-      <path d="M2 12h20M12 2c3 3.5 3 16.5 0 20M12 2C9 5.5 9 18.5 12 22" strokeWidth="1.5" />
-    </svg>
-  );
-}
-
-// Tailwind utility shortcuts (via className)
-// .lang { @apply px-2.5 py-1.5 text-sm rounded-lg border hover:bg-white; }
-// .input { @apply w-full rounded-xl border border-slate-300 p-3 focus:outline-none focus:ring-2 focus:ring-slate-900; }
+      const root = ReactDOM.createRoot(document.getElementById("root"));
+      root.render(<ReservationPage />);
+    </script>
+  </body>
+</html>
