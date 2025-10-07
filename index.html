@@ -108,7 +108,7 @@
                   </div>
                 </a>
 
-                <nav className="flex items-center gap-2 sm:gap-4 text-[15px] font-semibold pointer-events-auto">
+                <nav className="flex items-center gap-2 sm:gap-4 text-[15px] font-semibold pointer-events-auto overflow-x-auto flex-nowrap">
                   {navItems.map((item) => {
                     const isActive = activeSection === item.id;
                     return (
@@ -117,16 +117,15 @@
                         href={`#${item.id}`}
                         onClick={(e) => handleNavClick(e, item.id)}
                         className={`px-6 py-2 rounded-full border border-white/40 shadow-sm transition-colors duration-200
-    ${
-      isActive
-        ? atTop
-          ? "bg-white/40 backdrop-blur-xl border border-white/60 shadow-lg"
-          : "bg-slate-900/30 backdrop-blur-xl border border-slate-900/40 shadow-lg text-white"
-        : atTop
-        ? "text-white hover:bg-white/30 hover:backdrop-blur-xl hover:border-white/60"
-        : "text-slate-900 hover:bg-white/40 hover:backdrop-blur-xl hover:border-slate-900/40"
-    }
-  `}
+${isActive
+  ? atTop
+    ? "bg-white/40 backdrop-blur-xl border border-white/60 shadow-lg"
+    : "bg-slate-900/30 backdrop-blur-xl border border-slate-900/40 shadow-lg text-white"
+  : atTop
+  ? "text-white hover:bg-white/30 hover:backdrop-blur-xl hover:border-white/60"
+  : "text-slate-900 hover:bg-white/40 hover:backdrop-blur-xl hover:border-slate-900/40"
+}
+`}
                       >
                         {item.label}
                       </a>
