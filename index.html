@@ -147,7 +147,7 @@ ${isActive
 
       function Hero() {
         return (
-          <section className="relative h-[68vh] min-h-[520px] w-full flex items-center justify-center">
+          <section className="relative h-[68vh] min-h-[520px] w-full">
             <div className="absolute inset-0 -z-10 overflow-hidden">
               <video
                 className="h-full w-full object-cover"
@@ -159,24 +159,17 @@ ${isActive
               >
                 <source src='tausta.png' />
               </video>
-              {/* Ylhäällä musta, keskellä läpinäkyvä, alhaalla valkoinen */}
-              <div className="
-                absolute inset-0
-                bg-gradient-to-b
-                from-black/80
-                via-transparent
-                to-white/90
-                [background-image:linear-gradient(to_bottom,rgba(0,0,0,0.8)_0%,rgba(0,0,0,0.6)_12%,rgba(0,0,0,0.0)_30%,rgba(0,0,0,0.0)_70%,rgba(255,255,255,0.95)_100%)]
-              " />
+              <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/40 to-white" />
             </div>
-            {/* Otsikot taustakuvan päällä */}
-            <div className="relative z-10 text-center text-white drop-shadow-lg px-4">
-              <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight">
-                Varaa Ainutlaatuinen Saunalauttaristeily Kotkajärvellä
-              </h1>
-              <p className="mt-3 max-w-2xl mx-auto text-lg sm:text-xl text-white/90">
-                Nauti järven rauhasta, lämpimästä saunasta ja hyvästä seurasta. Elämys, jota et unohda!
-              </p>
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-end pb-50">
+              <div className="text-white drop-shadow">
+                <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight">
+                  Varaa Ainutlaatuinen Saunalauttaristeily Kotkajärvellä
+                </h1>
+                <p className="mt-3 max-w-2xl text-white/90">
+                  Nauti järven rauhasta, lämpimästä saunasta ja hyvästä seurasta. Elämys, jota et unohda!
+                </p>
+              </div>
             </div>
           </section>
         );
@@ -406,7 +399,7 @@ ${isActive
               </>
             )}
             <Hero />
-            <main className="relative z-10 bg-white flex-grow mt-20 md:mt-32">
+            <main className="relative z-10 bg-white flex-grow">
               <Section id="varaus" title="Varaa risteily">
                 <form
                   action="https://formspree.io/f/myzndywa"
