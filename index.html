@@ -96,19 +96,18 @@
             }`}
           >
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-              <div className="flex h-20 items-center justify-between gap-6">
-                <a
-                  href="#"
-                  className="flex items-center gap-3 transition-opacity shrink-0"
-                >
+              <div className="flex flex-col md:flex-row h-auto md:h-[96px] items-center justify-center gap-2 md:gap-8 py-4 md:py-0">
+                {/* Logo ja teksti keskitetysti */}
+                <div className="flex flex-row items-center justify-center mb-3 md:mb-0">
                   <Logo />
-                  <div className="hidden sm:block text-left drop-shadow">
+                  <div className="text-center drop-shadow ml-2">
                     <div className="text-xl font-extrabold tracking-tight">SAUNALAUTTA</div>
                     <div className="-mt-1 text-sm font-semibold">KOTKAJÄRVI</div>
                   </div>
-                </a>
+                </div>
 
-                <nav className="flex items-center gap-2 sm:gap-4 text-[15px] font-semibold pointer-events-auto overflow-x-auto flex-nowrap">
+                {/* Menu mobiilissa logon alla, desktopissa vierekkäin */}
+                <nav className="flex flex-row md:flex-row justify-center items-center gap-2 md:gap-4 text-[15px] font-semibold pointer-events-auto flex-nowrap w-full md:w-auto">
                   {navItems.map((item) => {
                     const isActive = activeSection === item.id;
                     return (
