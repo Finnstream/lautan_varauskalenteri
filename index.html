@@ -69,8 +69,8 @@
       function Header({ atTop, activeSection, setActiveSection }) {
         const navItems = [
           { id: "varaus", label: "Varaa risteily" },
-          { id: "aukioloajat", label: "Aukioloajat" },
-          { id: "tapahtumat", label: "Lautan tarina" },
+          { id: "hinnasto", label: "Hinnasto" },
+          { id: "tarina", label: "Tarina" },
           { id: "galleria", label: "Galleria" },
         ];
 
@@ -91,7 +91,7 @@
           <header
             className={`fixed inset-x-0 z-50 transition-all
       ${atTop
-        ? "top-[40px] md:top-[88px] bg-transparent text-white"
+        ? "top-[40px] md:top-[45px] bg-transparent text-white"
         : "top-0 bg-white/50 backdrop-blur text-slate-900"
       }`}
           >
@@ -510,3 +510,4 @@ ${isActive
     </script>
   </body>
 </html>
+
