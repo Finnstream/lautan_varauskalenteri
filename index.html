@@ -44,17 +44,13 @@
 
       function Logo() {
         return (
-          <div className="relative h-12 w-12">
-            <svg viewBox="0 0 100 100" className="h-full w-full">
-              <defs>
-                <linearGradient id="g" x1="0" x2="1">
-                  <stop offset="0%" stopColor="#38bdf8" />
-                  <stop offset="100%" stopColor="#0ea5e9" />
-                </linearGradient>
-              </defs>
-              <circle cx="50" cy="50" r="46" fill="url(#g)" />
-              <rect x="25" y="40" width="50" height="20" rx="5" fill="white" />
-            </svg>
+          <div className="relative h-12 w-12 overflow-hidden rounded-full">
+            <img
+              src="logo.png"
+              alt="Logo"
+              className="h-full w-full object-cover scale-150"
+              style={{ display: 'block' }}
+            />
           </div>
         );
       }
@@ -74,8 +70,8 @@
         const navItems = [
           { id: "varaus", label: "Varaa risteily" },
           { id: "aukioloajat", label: "Aukioloajat" },
-          { id: "tarjoukset", label: "Tarjoukset" },
-          { id: "tapahtumat", label: "Lautan tarina" },
+          { id: "tapahtumat", label: "Lautan tarina" }, // Vaihdettu paikka
+          { id: "galleria", label: "Galleria" },        // Uusi kohta
         ];
 
         const handleNavClick = (e, id) => {
@@ -93,17 +89,17 @@
 
         return (
           <header
-            className={`fixed top-6 inset-x-0 z-50 transition-all ${
-              atTop ? "bg-transparent text-white" : "bg-white/80 backdrop-blur text-slate-900"
+            className={`fixed inset-x-0 z-50 transition-all ${
+              atTop
+                ? "top-[40px] bg-transparent text-white"
+                : "top-0 bg-white/50 backdrop-blur text-slate-900"
             }`}
           >
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
               <div className="flex h-20 items-center justify-between gap-6">
                 <a
                   href="#"
-                  className={`flex items-center gap-3 transition-opacity shrink-0 ${
-                    atTop ? "opacity-100" : "opacity-0 pointer-events-none"
-                  }`}
+                  className="flex items-center gap-3 transition-opacity shrink-0"
                 >
                   <Logo />
                   <div className="hidden sm:block text-left drop-shadow">
@@ -120,13 +116,17 @@
                         key={item.id}
                         href={`#${item.id}`}
                         onClick={(e) => handleNavClick(e, item.id)}
-                        className={`px-4 py-2 rounded-lg transition-colors duration-200 ${
-                          isActive
-                            ? "bg-slate-900 text-white"
-                            : atTop
-                            ? "text-white hover:bg-white/20"
-                            : "text-slate-900 hover:bg-white/70 hover:backdrop-blur"
-                        }`}
+                        className={`px-6 py-2 rounded-full border border-white/40 shadow-sm transition-colors duration-200
+    ${
+      isActive
+        ? atTop
+          ? "bg-white/40 backdrop-blur-xl border border-white/60 shadow-lg"
+          : "bg-slate-900/30 backdrop-blur-xl border border-slate-900/40 shadow-lg text-white"
+        : atTop
+        ? "text-white hover:bg-white/30 hover:backdrop-blur-xl hover:border-white/60"
+        : "text-slate-900 hover:bg-white/40 hover:backdrop-blur-xl hover:border-slate-900/40"
+    }
+  `}
                       >
                         {item.label}
                       </a>
@@ -134,11 +134,7 @@
                   })}
                 </nav>
 
-                <div
-                  className={`hidden md:flex items-center gap-4 transition-opacity shrink-0 ${
-                    atTop ? "opacity-100" : "opacity-0 pointer-events-none"
-                  }`}
-                >
+                <div className="hidden md:flex items-center gap-4 transition-opacity shrink-0">
                   <button className="lang">FI</button>
                   <button className="lang">EN</button>
                 </div>
@@ -149,65 +145,34 @@
       }
 
       function Hero() {
-  const { useState, useEffect } = React;
-
-  const images = [
-    "https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=1600&q=80",
-    "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1600&q=80",
-    "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1600&q=80",
-    "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1600&q=80",
-    "https://images.unsplash.com/photo-1491553895911-0055eca6402d?auto=format&fit=crop&w=1600&q=80"
-  ];
-
-  const [current, setCurrent] = useState(0);
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrent((prev) => (prev + 1) % images.length);
-    }, 4000); // vaihtaa kuvaa 4 s välein
-    return () => clearInterval(timer);
-  }, [images.length]);
-
-  return (
-    <section className="relative h-[68vh] min-h-[520px] w-full overflow-hidden">
-      {/* Taustakaruselli */}
-      {images.map((src, i) => (
-        <img
-          key={i}
-          src={src}
-          alt="Maisemakuva"
-          className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ${i === current ? "opacity-100" : "opacity-0"}`}
-          loading="eager"
-        />
-      ))}
-
-      {/* Tummennus luettavuutta varten */}
-      <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/40 to-white/0 pointer-events-none"></div>
-
-      {/* Sisältö */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-end pb-20 relative z-10">
-        <div className="text-white drop-shadow">
-          <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight">
-            Varaa Ainutlaatuinen Saunalauttaristeily Kotkajärvellä
-          </h1>
-          <p className="mt-3 max-w-2xl text-white/90">
-            Nauti järven rauhasta, lämpimästä saunasta ja hyvästä seurasta. Elämys, jota et unohda!
-          </p>
-        </div>
-      </div>
-
-      {/* Pisteindikaattorit */}
-      <div className="absolute bottom-3 left-1/2 -translate-x-1/2 z-10 flex gap-2">
-        {images.map((_, i) => (
-          <span
-            key={i}
-            className={`h-2 w-2 rounded-full ${i === current ? "bg-white" : "bg-white/60"}`}
-          />
-        ))}
-      </div>
-    </section>
-  );
-}
+        return (
+          <section className="relative h-[68vh] min-h-[520px] w-full">
+            <div className="absolute inset-0 -z-10 overflow-hidden">
+              <video
+                className="h-full w-full object-cover"
+                autoPlay
+                muted
+                loop
+                playsInline
+                poster="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=1920&auto=format&fit=crop"
+              >
+                <source src="https://cdn.coverr.co/videos/coverr-lake-waves-1080p.mp4" type="video/mp4" />
+              </video>
+              <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/40 to-white" />
+            </div>
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-end pb-20">
+              <div className="text-white drop-shadow">
+                <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight">
+                  Varaa Ainutlaatuinen Saunalauttaristeily Kotkajärvellä
+                </h1>
+                <p className="mt-3 max-w-2xl text-white/90">
+                  Nauti järven rauhasta, lämpimästä saunasta ja hyvästä seurasta. Elämys, jota et unohda!
+                </p>
+              </div>
+            </div>
+          </section>
+        );
+      }
 
       function Section({ id, title, children }) {
         return (
@@ -243,18 +208,119 @@
 
               {/* Oikealla placeholder-logo */}
               <div className="flex items-center justify-center">
-                <div className="h-10 w-10 bg-slate-300 rounded-full flex items-center justify-center text-slate-700 font-bold">
-                  LOGO
-                </div>
+                <img
+                  src="logo.png"
+                  alt="Logo"
+                  className="h-10 w-10 object-cover rounded-full scale-150"
+                  style={{ display: 'block' }}
+                />
               </div>
             </div>
           </footer>
         );
       }
 
+      function Gallery({ modalIdx, setModalIdx }) {
+        // Päivitetty 12 toimivaa Unsplash-kuvaa
+        const images = [
+          "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=600&q=80",
+          "https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=600&q=80",
+          "https://images.unsplash.com/photo-1502086223501-7ea6ecd79368?auto=format&fit=crop&w=600&q=80",
+          "https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&w=600&q=80",
+          "https://images.unsplash.com/photo-1519125323398-675f0ddb6308?auto=format&fit=crop&w=600&q=80",
+          "https://images.unsplash.com/photo-1465101178521-c1a4c8a0a8b7?auto=format&fit=crop&w=600&q=80",
+          "https://images.unsplash.com/photo-1508873699372-7aeab60b44c9?auto=format&fit=crop&w=600&q=80",
+          "https://images.unsplash.com/photo-1470770841072-f978cf4d019e?auto=format&fit=crop&w=600&q=80",
+          "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=600&q=80",
+          "https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=600&q=80",
+          "https://images.unsplash.com/photo-1465101178521-c1a4c8a0a8b7?auto=format&fit=crop&w=600&q=80",
+          "https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=600&q=80",
+        ];
+
+        const shuffled = React.useMemo(() => images.slice().sort(() => 0.5 - Math.random()), []);
+
+        React.useEffect(() => {
+          if (modalIdx === null) return;
+          const handleKey = (e) => {
+            if (e.key === "ArrowRight") {
+              setModalIdx((idx) => (idx + 1) % shuffled.length);
+            } else if (e.key === "ArrowLeft") {
+              setModalIdx((idx) => (idx - 1 + shuffled.length) % shuffled.length);
+            } else if (e.key === "Escape") {
+              setModalIdx(null);
+            }
+          };
+          window.addEventListener("keydown", handleKey);
+          return () => window.removeEventListener("keydown", handleKey);
+        }, [modalIdx, shuffled.length, setModalIdx]);
+
+        return (
+          <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+              {shuffled.map((src, i) => (
+                <button
+                  key={i}
+                  className="rounded-xl overflow-hidden shadow-lg bg-white/60 backdrop-blur-sm border border-slate-200 focus:outline-none"
+                  onClick={() => setModalIdx(i)}
+                  style={{ cursor: "zoom-in" }}
+                  aria-label="Näytä suurempana"
+                >
+                  <img
+                    src={src}
+                    alt={`Gallery ${i + 1}`}
+                    className="w-full h-40 object-cover transition-transform duration-300 hover:scale-105"
+                    loading="lazy"
+                  />
+                </button>
+              ))}
+            </div>
+            {modalIdx !== null && (
+              <div
+                className="fixed inset-0 z-[999] flex items-center justify-center bg-black/80 backdrop-blur-sm"
+                onClick={() => setModalIdx(null)}
+                style={{ cursor: "pointer" }}
+              >
+                <button
+                  className="absolute top-8 right-8 text-white text-3xl font-bold bg-black/40 rounded-full px-4 py-2 hover:bg-black/70"
+                  onClick={(e) => { e.stopPropagation(); setModalIdx(null); }}
+                  aria-label="Sulje"
+                >
+                  ×
+                </button>
+                <button
+                  className="absolute left-4 md:left-12 top-1/2 -translate-y-1/2 text-white text-4xl font-bold bg-black/40 rounded-full px-3 py-2 hover:bg-black/70"
+                  onClick={(e) => { e.stopPropagation(); setModalIdx((idx) => (idx - 1 + shuffled.length) % shuffled.length); }}
+                  aria-label="Edellinen kuva"
+                >
+                  &#8592;
+                </button>
+                <img
+                  src={shuffled[modalIdx]}
+                  alt="Suuri kuva"
+                  className="w-auto h-auto max-w-[98vw] max-h-[98vh] object-contain rounded-2xl shadow-2xl border-4 border-white bg-transparent"
+                  style={{
+                    display: "block",
+                    margin: "auto",
+                  }}
+                  onClick={e => e.stopPropagation()}
+                />
+                <button
+                  className="absolute right-4 md:right-12 top-1/2 -translate-y-1/2 text-white text-4xl font-bold bg-black/40 rounded-full px-3 py-2 hover:bg-black/70"
+                  onClick={(e) => { e.stopPropagation(); setModalIdx((idx) => (idx + 1) % shuffled.length); }}
+                  aria-label="Seuraava kuva"
+                >
+                  &#8594;
+                </button>
+              </div>
+            )}
+          </section>
+        );
+      }
+
       function ReservationPage() {
         const [atTop, setAtTop] = useState(true);
         const [activeSection, setActiveSection] = useState(null);
+        const [modalIdx, setModalIdx] = useState(null);
 
         useEffect(() => {
           const handleScroll = () => {
@@ -284,12 +350,16 @@
 
         return (
           <div className="min-h-screen text-slate-900 flex flex-col">
-            <TopBar />
-            <Header atTop={atTop} activeSection={activeSection} setActiveSection={setActiveSection} />
+            {modalIdx === null && (
+              <>
+                <TopBar />
+                <Header atTop={atTop} activeSection={activeSection} setActiveSection={setActiveSection} />
+              </>
+            )}
             <Hero />
             <main className="relative z-10 bg-white flex-grow">
               <Section id="varaus" title="Varaa risteily">
-              <form
+                <form
                   action="https://formspree.io/f/myzndywa"
                   method="POST"
                   className="grid gap-6 sm:grid-cols-2"
@@ -358,8 +428,6 @@
                     </button>
                   </div>
                 </form>
-
-              
               </Section>
 
               <Section id="aukioloajat" title="Aukioloajat">
@@ -369,20 +437,16 @@
                 </p>
               </Section>
 
-              <Section id="tarjoukset" title="Tarjoukset">
-                <ul className="list-disc pl-6 space-y-2 text-slate-700">
-                  <li>Arki-iltatarjous: -10% klo 18 jälkeen.</li>
-                  <li>Opiskelija-alennus: -15% voimassa olevan opiskelijakortin kanssa.</li>
-                  <li>Ryhmäedut: yli 8 hengen seurueille lisäalennus -5%.</li>
-                </ul>
-              </Section>
-
               <Section id="tapahtumat" title="Lautan tarina">
                 <p className="text-slate-700 leading-relaxed">
                   Kotkajärven saunalautta on rakennettu käsin ja se on palvellut asiakkaita vuodesta 2024 lähtien.
                   Tavoitteenamme on tarjota rentouttava ja ainutlaatuinen elämys järven rauhassa — yhdistäen
                   suomalaisen saunakulttuurin ja luonnon kauneuden. Tervetuloa kyytiin!
                 </p>
+              </Section>
+
+              <Section id="galleria" title="Galleria">
+                <Gallery modalIdx={modalIdx} setModalIdx={setModalIdx} />
               </Section>
             </main>
             <Footer />
