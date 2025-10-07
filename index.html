@@ -161,16 +161,6 @@ ${isActive
               </video>
               <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/40 to-white" />
             </div>
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-end pb-50">
-              <div className="text-white drop-shadow">
-                <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight">
-                  Varaa Ainutlaatuinen Saunalauttaristeily Kotkajärvellä
-                </h1>
-                <p className="mt-3 max-w-2xl text-white/90">
-                  Nauti järven rauhasta, lämpimästä saunasta ja hyvästä seurasta. Elämys, jota et unohda!
-                </p>
-              </div>
-            </div>
           </section>
         );
       }
@@ -399,7 +389,17 @@ ${isActive
               </>
             )}
             <Hero />
-            <main className="relative z-10 bg-white flex-grow">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-[-2rem] mb-8 md:mt-12 lg:mt-24 relative z-20">
+              <div className="text-slate-900 drop-shadow text-center">
+                <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight">
+                  Varaa Ainutlaatuinen Saunalauttaristeily Kotkajärvellä
+                </h1>
+                <p className="mt-3 max-w-2xl mx-auto text-slate-700">
+                  Nauti järven rauhasta, lämpimästä saunasta ja hyvästä seurasta. Elämys, jota et unohda!
+                </p>
+              </div>
+            </div>
+            <main className="relative z-10 bg-white flex-grow mt-20 md:mt-32">
               <Section id="varaus" title="Varaa risteily">
                 <form
                   action="https://formspree.io/f/myzndywa"
