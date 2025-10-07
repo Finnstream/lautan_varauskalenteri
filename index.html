@@ -98,13 +98,17 @@
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
               <div className="flex flex-row flex-wrap items-center h-[96px] py-0 gap-2 md:gap-8 justify-center md:justify-between">
                 {/* Logo ja teksti vierekkäin aina */}
-                <div className="flex items-center mx-auto md:mx-0">
-                  <Logo />
-                  <div className="text-center drop-shadow ml-2">
-                    <div className="text-xl font-extrabold tracking-tight">SAUNALAUTTA</div>
-                    <div className="-mt-1 text-sm font-semibold">KOTKAJÄRVI</div>
-                  </div>
+                <button
+                onClick={() => window.location.reload()}
+                className="flex items-center mx-auto md:mx-0 cursor-pointer"
+                title="Palaa kotisivulle"
+              >
+                <Logo />
+                <div className="text-center drop-shadow ml-2">
+                  <div className="text-xl font-extrabold tracking-tight">SAUNALAUTTA</div>
+                  <div className="-mt-1 text-sm font-semibold">KOTKAJÄRVI</div>
                 </div>
+              </button>
                 {/* Menu vain desktopissa */}
                 <nav className="hidden md:flex md:flex-row md:gap-4 ml-8">
                   {navItems.map((item) => {
@@ -347,8 +351,8 @@ ${isActive
 
         const navItems = [
           { id: "varaus", label: "Varaa risteily" },
-          { id: "aukioloajat", label: "Aukioloajat" },
-          { id: "tapahtumat", label: "Lautan tarina" },
+          { id: "hinnasto", label: "Hinnasto" },
+          { id: "tarina", label: "Tarina" },
           { id: "galleria", label: "Galleria" },
         ];
 
@@ -481,14 +485,14 @@ ${isActive
                 </form>
               </Section>
 
-              <Section id="aukioloajat" title="Aukioloajat">
+              <Section id="hinnasto" title="Hinnasto">
                 <p className="text-slate-700 leading-relaxed">
                   <strong>Ma–Su:</strong> 10:00–22:00 <br />
                   Risteilyt varattavissa aina säävarauksella. Varaathan aikasi ajoissa!
                 </p>
               </Section>
 
-              <Section id="tapahtumat" title="Lautan tarina">
+              <Section id="tarina" title="Tarina">
                 <p className="text-slate-700 leading-relaxed">
                   Kotkajärven saunalautta on rakennettu käsin ja se on palvellut asiakkaita vuodesta 2024 lähtien.
                   Tavoitteenamme on tarjota rentouttava ja ainutlaatuinen elämys järven rauhassa — yhdistäen
