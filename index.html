@@ -162,11 +162,22 @@ ${isActive
               <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/40 to-white" />
             </div>
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-end pb-50">
-              <div className="text-white drop-shadow">
-                <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight bg-gradient-to-r from-blue-800 via-blue-200 to-blue-800 bg-clip-text text-transparent">
+              <div className="text-white drop-shadow" style={{ marginBottom: '5vh' }}>
+                <h1
+                  className="text-4xl sm:text-5xl font-extrabold tracking-tight mb-2 bg-gradient-to-r from-rose-500 via-orange-500 to-yellow-400 bg-clip-text text-transparent"
+                >
                   Varaa Ainutlaatuinen Saunalauttaristeily Kotkajärvellä
                 </h1>
-                <p className="mt-3 max-w-2xl bg-gradient-to-r from-blue-800 via-blue-300 to-blue-600 bg-clip-text text-transparent">
+                <p
+                  className="mt-1 whitespace-nowrap font-semibold bg-gradient-to-r from-rose-500 via-orange-500 to-yellow-400 bg-clip-text text-transparent"
+                  style={{
+                    borderRadius: '0.75rem',
+                    padding: '0.5rem 1rem',
+                    display: 'inline-block',
+                    fontWeight: 500,
+                    whiteSpace: 'nowrap'
+                  }}
+                >
                   Nauti järven rauhasta, lämpimästä saunasta ja hyvästä seurasta. Elämys, jota et unohda!
                 </p>
               </div>
@@ -178,9 +189,7 @@ ${isActive
       function Section({ id, title, children }) {
         return (
           <section id={id} className="scroll-mt-32 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-            <h2 className="text-3xl font-extrabold tracking-tight mb-8 bg-gradient-to-r from-blue-800 via-blue-400 to-blue-600 bg-clip-text text-transparent">
-              {title}
-            </h2>
+            <h2 className="text-3xl font-extrabold tracking-tight mb-8">{title}</h2>
             <div className="rounded-2xl border border-slate-200 shadow-sm p-8 bg-white/60 backdrop-blur-sm">
               {children}
             </div>
@@ -307,117 +316,10 @@ ${isActive
         );
       }
 
-      const termsData = [
-  {
-    id: "rules",
-    label: "Olen lukenut ja hyväksyn Säännöt ja ehdot",
-    title: "Säännöt ja ehdot",
-    content: `Tähän tulee saunalautan säännöt ja ehdot. Lue huolellisesti ennen hyväksyntää.`
-  },
-  {
-    id: "privacy",
-    label: "Olen lukenut ja hyväksyn Tietosuojakäytännön",
-    title: "Tietosuojakäytäntö",
-    content: `Tähän tulee tietosuojakäytännön sisältö. Lue huolellisesti ennen hyväksyntää.`
-  },
-  {
-    id: "binding",
-    label: "Ymmärrän, että tilaus on sitova",
-    title: "Tilauksen sitovuus",
-    content: `Tilaus on sitova. Lue tämä huolellisesti ennen hyväksyntää.`
-  }
-];
-
-function TermsCheckboxes({ onAllChecked }) {
-  const [open, setOpen] = React.useState([false, false, false]);
-  const [scrolled, setScrolled] = React.useState([false, false, false]);
-  const [checked, setChecked] = React.useState([false, false, false]);
-  const contentRefs = React.useRef([null, null, null]);
-
-  React.useEffect(() => {
-    onAllChecked(checked.every(Boolean));
-  }, [checked, onAllChecked]);
-
-  // Tarkista automaattisesti, voiko tekstin skrollata
-  React.useEffect(() => {
-    open.forEach((isOpen, idx) => {
-      if (isOpen && contentRefs.current[idx]) {
-        const el = contentRefs.current[idx];
-        if (el.scrollHeight <= el.clientHeight && !scrolled[idx]) {
-          setScrolled(s => s.map((v, i) => i === idx ? true : v));
-        }
-      }
-    });
-    // eslint-disable-next-line
-  }, [open]);
-
-  const handleOpen = idx => {
-    setOpen(open => open.map((v, i) => i === idx ? !v : v));
-  };
-
-  const handleScroll = (e, idx) => {
-    const el = e.target;
-    if (el.scrollTop + el.clientHeight >= el.scrollHeight - 5) {
-      setScrolled(s => s.map((v, i) => i === idx ? true : v));
-    }
-  };
-
-  const handleCheck = idx => {
-    if (!scrolled[idx]) return;
-    setChecked(c => c.map((v, i) => i === idx ? !v : v));
-  };
-
-  return (
-    <div className="sm:col-span-2 flex flex-col gap-4 mt-4">
-      {termsData.map((item, idx) => (
-        <div key={item.id} className="border rounded-xl p-4 bg-white/80">
-          <button
-            type="button"
-            className="font-semibold underline text-slate-900"
-            onClick={() => handleOpen(idx)}
-            aria-expanded={open[idx]}
-          >
-            {item.title}
-          </button>
-          {open[idx] && (
-            <div
-              className="mt-2 max-h-40 overflow-y-auto border p-3 rounded bg-slate-50 text-sm"
-              ref={el => contentRefs.current[idx] = el}
-              onScroll={e => handleScroll(e, idx)}
-              tabIndex={0}
-              style={{ outline: "none" }}
-            >
-              {item.content}
-              {!scrolled[idx] && (
-                <div className="mt-2 text-xs text-slate-500 italic">
-                  Skrollaa alas asti lukeaksesi koko tekstin.
-                </div>
-              )}
-            </div>
-          )}
-          <label className="flex items-center gap-2 mt-2">
-            <input
-              type="checkbox"
-              required
-              checked={checked[idx]}
-              disabled={!scrolled[idx]}
-              onChange={() => handleCheck(idx)}
-            />
-            <span className={scrolled[idx] ? "" : "text-slate-400"}>
-              {item.label}
-            </span>
-          </label>
-        </div>
-      ))}
-    </div>
-  );
-}
-
       function ReservationPage() {
         const [atTop, setAtTop] = useState(true);
         const [activeSection, setActiveSection] = useState(null);
         const [modalIdx, setModalIdx] = useState(null);
-        const [canSubmit, setCanSubmit] = useState(false);
 
         useEffect(() => {
           const handleScroll = () => {
@@ -570,13 +472,10 @@ ${isActive
                     />
                   </div>
 
-                  <TermsCheckboxes onAllChecked={setCanSubmit} />
-
                   <div className="sm:col-span-2">
                     <button
                       type="submit"
-                      className="bg-slate-900 text-white px-6 py-3 rounded-xl hover:bg-slate-800 transition disabled:opacity-50"
-                      disabled={!canSubmit}
+                      className="bg-slate-900 text-white px-6 py-3 rounded-xl hover:bg-slate-800 transition"
                     >
                       Lähetä
                     </button>
