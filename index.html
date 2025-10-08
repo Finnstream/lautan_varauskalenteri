@@ -70,6 +70,7 @@
         const navItems = [
           { id: "varaus", label: "Varaa risteily" },
           { id: "hinnasto", label: "Hinnasto" },
+          { id: "saannot", label: "Säännöt" }, // UUSI NAPPULA
           { id: "tarina", label: "Tarina" },
           { id: "galleria", label: "Galleria" },
         ];
@@ -339,6 +340,7 @@ ${isActive
         const navItems = [
           { id: "varaus", label: "Varaa risteily" },
           { id: "hinnasto", label: "Hinnasto" },
+          { id: "saannot", label: "Säännöt" }, // UUSI NAPPULA
           { id: "tarina", label: "Tarina" },
           { id: "galleria", label: "Galleria" },
         ];
@@ -473,17 +475,36 @@ ${isActive
               </Section>
 
               <Section id="hinnasto" title="Hinnasto">
-                <p className="text-slate-700 leading-relaxed">
+                <ul className="text-slate-700 leading-relaxed list-disc pl-6">
+                  <li>Perusristeily (2h): <strong>180 €</strong> (sis. sauna, kapteeni, polttoaineet)</li>
+                  <li>Lisätunti: <strong>60 € / h</strong></li>
+                  <li>Lapset alle 12v: <strong>ilmaiseksi</strong> aikuisen seurassa</li>
+                  <li>Ruoka- ja juomatarjoilu: <strong>pyydä tarjous</strong></li>
+                  <li>Max. 10 hlö / risteily</li>
+                </ul>
+                <p className="text-slate-700 mt-4">
                   <strong>Ma–Su:</strong> 10:00–22:00 <br />
                   Risteilyt varattavissa aina säävarauksella. Varaathan aikasi ajoissa!
                 </p>
               </Section>
 
+              <Section id="saannot" title="Säännöt">
+                <ul className="text-slate-700 leading-relaxed list-disc pl-6">
+                  <li>Kaikki osallistujat käyttävät pelastusliivejä laiturilta poistuttaessa.</li>
+                  <li>Omien alkoholijuomien tuonti sallittu kohtuudella.</li>
+                  <li>Saunominen tapahtuu omalla vastuulla.</li>
+                  <li>Uiminen vain lautan ollessa ankkurissa ja kapteenin luvalla.</li>
+                  <li>Roskaaminen kielletty – pidetään järvi puhtaana!</li>
+                  <li>Kapteenin ohjeita tulee noudattaa koko risteilyn ajan.</li>
+                </ul>
+              </Section>
+
               <Section id="tarina" title="Tarina">
                 <p className="text-slate-700 leading-relaxed">
-                  Kotkajärven saunalautta on rakennettu käsin ja se on palvellut asiakkaita vuodesta 2024 lähtien.
-                  Tavoitteenamme on tarjota rentouttava ja ainutlaatuinen elämys järven rauhassa — yhdistäen
-                  suomalaisen saunakulttuurin ja luonnon kauneuden. Tervetuloa kyytiin!
+                  Saunalautta Kotkajärvi sai alkunsa intohimosta suomalaiseen järviluontoon ja saunakulttuuriin.
+                  Lautta rakennettiin talkoovoimin vuonna 2024, ja siitä lähtien olemme tarjonneet unohtumattomia elämyksiä ystäville, perheille ja yrityksille.
+                  Tavoitteenamme on tarjota rentouttava hetki luonnon rauhassa – yhdistäen perinteisen saunan, puhtaan järvi-ilman ja hyvän seuran.
+                  Tervetuloa kokemaan Kotkajärven ainutlaatuinen tunnelma!
                 </p>
               </Section>
 
