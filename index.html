@@ -70,7 +70,7 @@
         const navItems = [
           { id: "varaus", label: "Varaa risteily" },
           { id: "hinnasto", label: "Hinnasto" },
-          { id: "saannot", label: "Säännöt" }, // UUSI NAPPULA
+          { id: "saannot", label: "Säännöt" },
           { id: "tarina", label: "Tarina" },
           { id: "galleria", label: "Galleria" },
         ];
@@ -88,6 +88,14 @@
           setActiveSection(id);
         };
 
+        // UUSI: logo scrollaa ylös, ei lataa sivua
+        const handleLogoClick = (e) => {
+          e.preventDefault();
+          window.scrollTo({ top: 0, behavior: "smooth" });
+          history.replaceState(null, "", "#");
+          setActiveSection(null);
+        };
+
         return (
           <header
             className={`fixed inset-x-0 z-50 transition-all
@@ -100,16 +108,17 @@
               <div className="flex flex-row flex-wrap items-center h-[96px] py-0 gap-2 md:gap-8 justify-center md:justify-between">
                 {/* Logo ja teksti vierekkäin aina */}
                 <button
-                onClick={() => window.location.reload()}
-                className="flex items-center mx-auto md:mx-0 cursor-pointer"
-                title="Palaa kotisivulle"
-              >
-                <Logo />
-                <div className="text-center drop-shadow ml-2">
-                  <div className="text-xl font-extrabold tracking-tight">SAUNALAUTTA</div>
-                  <div className="-mt-1 text-sm font-semibold">KOTKAJÄRVI</div>
-                </div>
-              </button>
+                  onClick={handleLogoClick}
+                  className="flex items-center mx-auto md:mx-0 cursor-pointer"
+                  title="Palaa kotisivulle"
+                  style={{ background: "none", border: "none", padding: 0 }}
+                >
+                  <Logo />
+                  <div className="text-center drop-shadow ml-2">
+                    <div className="text-xl font-extrabold tracking-tight">SAUNALAUTTA</div>
+                    <div className="-mt-1 text-sm font-semibold">KOTKAJÄRVI</div>
+                  </div>
+                </button>
                 {/* Menu vain desktopissa */}
                 <nav className="hidden md:flex md:flex-row md:gap-4 ml-8">
                   {navItems.map((item) => {
@@ -163,7 +172,7 @@ ${isActive
               <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/40 to-white" />
             </div>
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-end pb-50">
-              <div className="text-white drop-shadow">
+              <div className="text-white drop-shadow mb-8"> {/* Lisätty mb-8 (margin-bottom pienemmäksi) */}
                 <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight">
                   Varaa Ainutlaatuinen Saunalauttaristeily Kotkajärvellä
                 </h1>
