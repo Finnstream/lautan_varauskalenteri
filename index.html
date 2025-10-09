@@ -79,7 +79,6 @@
           const top = rect.top + scrollTop - headerOffset;
           window.scrollTo({ top, behavior: "smooth" });
           history.replaceState(null, "", `#${id}`);
-          setActiveSection(id);
         };
 
         // UUSI: logo scrollaa ylös, ei lataa sivua
@@ -251,7 +250,7 @@ ${isActive
         }, [modalIdx, shuffled.length, setModalIdx]);
 
         return (
-          <section className="max-w-6xl mx-auto px-1 sm:px-6 lg:px-8 py-8">
+          <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
               {shuffled.map((src, i) => (
                 <button
@@ -322,18 +321,16 @@ ${isActive
         useEffect(() => {
           const handleScroll = () => {
             const headerOffset = 120;
-            const y = window.scrollY || window.pageYOffset;
-            setAtTop(y < 40);
+            const y = window.scrollY + headerOffset;
+            setAtTop(window.scrollY < 40);
 
             const sections = Array.from(document.querySelectorAll("section[id]"));
-            let current = null;
+            let current = sections[0]?.getAttribute("id") || null;
 
-            for (const section of sections) {
-              const top = section.offsetTop - headerOffset;
-              const height = section.offsetHeight;
-              if (y >= top && y < top + height) {
-                current = section.getAttribute("id");
-                break;
+            for (let i = 0; i < sections.length; i++) {
+              const sectionTop = sections[i].offsetTop;
+              if (y >= sectionTop) {
+                current = sections[i].getAttribute("id");
               }
             }
 
@@ -490,10 +487,18 @@ ${isActive
                   <li>Lapset alle 12v: <strong>ilmaiseksi</strong> aikuisen seurassa</li>
                   <li>Ruoka- ja juomatarjoilu: <strong>pyydä tarjous</strong></li>
                   <li>Max. 10 hlö / risteily</li>
+                    <li>Erikoisristeilyt (synttärit, polttarit, yritystapahtumat): <strong>kysy erikoishinta</strong></li>
+                    <li>Saunan pyyhkeet ja pesuaineet sisältyvät hintaan</li>
+                    <li>Risteilyn voi perua veloituksetta 48h ennen lähtöä</li>
+                    <li>Lisäpalvelut: SUP-laudat, kalastusvälineet, grilli – <strong>lisämaksusta</strong></li>
                 </ul>
                 <p className="text-slate-700 mt-4">
                   <strong>Ma–Su:</strong> 10:00–22:00 <br />
                   Risteilyt varattavissa aina säävarauksella. Varaathan aikasi ajoissa!
+                    <br />
+                    Maksutavat: käteinen, kortti, MobilePay. Kaikki hinnat sisältävät arvonlisäveron.
+                    <br />
+                    Erityistoiveet ja allergiat huomioidaan – kerro varauksen yhteydessä!
                 </p>
               </Section>
 
@@ -505,6 +510,15 @@ ${isActive
                   <li>Uiminen vain lautan ollessa ankkurissa ja kapteenin luvalla.</li>
                   <li>Roskaaminen kielletty – pidetään järvi puhtaana!</li>
                   <li>Kapteenin ohjeita tulee noudattaa koko risteilyn ajan.</li>
+                    <li>Alle 18-vuotiaat vain huoltajan seurassa.</li>
+                    <li>Saunatilat ja lautta siistitään käytön jälkeen.</li>
+                    <li>Eläinten tuonti lauttaan vain erikseen sovittaessa.</li>
+                    <li>Meluhaittoja vältettävä – kunnioitetaan muita järven käyttäjiä.</li>
+                    <li>Risteily voidaan keskeyttää sääolosuhteiden tai turvallisuussyiden vuoksi.</li>
+                  <li>Saunalautalla ei saa käyttää avotulta ilman kapteenin lupaa.</li>
+                  <li>Kaikki sähkö- ja vesilaitteet tulee sammuttaa risteilyn päätyttyä.</li>
+                  <li>Vastuuhenkilö ilmoitetaan varauksen yhteydessä.</li>
+                  <li>Mahdolliset vahingot korvataan aiheuttajan toimesta.</li>
                 </ul>
               </Section>
 
@@ -514,6 +528,12 @@ ${isActive
                   Lautta rakennettiin talkoovoimin vuonna 2024, ja siitä lähtien olemme tarjonneet unohtumattomia elämyksiä ystäville, perheille ja yrityksille.
                   Tavoitteenamme on tarjota rentouttava hetki luonnon rauhassa – yhdistäen perinteisen saunan, puhtaan järvi-ilman ja hyvän seuran.
                   Tervetuloa kokemaan Kotkajärven ainutlaatuinen tunnelma!
+                    <br /><br />
+                    Ensimmäinen risteily järjestettiin aurinkoisena kesäpäivänä, jolloin lautta täyttyi iloisista saunojista ja uimareista. Vuosien varrella olemme nähneet monia juhlia, syntymäpäiviä ja yhteisiä hetkiä, jotka ovat jääneet asiakkaiden mieleen.
+                    Kotkajärven lautta on rakennettu kestävistä materiaaleista ja suunniteltu ympäristöä kunnioittaen. Jokainen risteily on meille mahdollisuus jakaa rakkaus järveen ja saunaan – ja luoda uusia muistoja.
+                    Kiitos kaikille, jotka ovat olleet mukana matkalla – toivottavasti näemme pian taas lautan kannella!
+                  <br /><br />
+                  Lautan tarina jatkuu joka kesä uusien asiakkaiden ja tapahtumien myötä. Olemme saaneet kunnian olla mukana monissa ikimuistoisissa hetkissä – kuten hääjuhlissa, yritysten virkistyspäivissä ja lasten syntymäpäivillä. Jokainen risteily on meille ainutlaatuinen kokemus, ja pyrimme aina kehittämään palveluamme asiakkaiden toiveiden mukaan. Kotkajärven rauha ja saunan lämpö ovat asioita, joita haluamme jakaa mahdollisimman monelle.
                 </p>
               </Section>
 
