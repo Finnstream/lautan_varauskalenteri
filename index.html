@@ -230,7 +230,7 @@ ${isActive
 
       // Gallery: kuvagalleria ja modal
       function Gallery({ modalIdx, setModalIdx }) {
-        // Päivitetty 12 toimivaa Unsplash-kuvaa
+        // Omat valokuvat kuvat kansiossa, määritetty kuvien määrä komennolla length. Kuvissa täytyy olla kuva1.jpeg nimi
         const images = Array.from({ length: 13 }, (_, i) => `/lautan_varauskalenteri/kuvat/kuva${i + 1}.jpeg`);
 
         const shuffled = React.useMemo(() => images.slice().sort(() => 0.5 - Math.random()), []);
