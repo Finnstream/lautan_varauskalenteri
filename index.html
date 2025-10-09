@@ -5,43 +5,35 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Saunalautta Kotkajärvi</title>
 
-    <!-- Tailwind CDN -->
+    <!-- Tailwind: utility-tyylikirjasto, nopea ulkoasun rakentaminen -->
     <script src="https://cdn.tailwindcss.com"></script>
 
-    <!-- Pehmeä scrollaus + overscroll fix + input-tyyli -->
+    <!-- Perustyylit ja input -->
     <style>
-      html {
-        scroll-behavior: smooth;
-        overscroll-behavior: none;
-      }
-      body {
-        overscroll-behavior: none;
-      }
+      html { scroll-behavior: smooth; overscroll-behavior: none; }
+      body { overscroll-behavior: none; }
       .input {
-        width: 100%;
-        border-radius: 0.75rem;
-        border: 1px solid rgb(226 232 240);
-        padding: 0.75rem 0.875rem;
-        outline: none;
+        width: 100%; border-radius: 0.75rem; border: 1px solid rgb(226 232 240);
+        padding: 0.75rem 0.875rem; outline: none;
       }
-      .input:focus {
-        box-shadow: 0 0 0 2px rgb(15 23 42);
-      }
+      .input:focus { box-shadow: 0 0 0 2px rgb(15 23 42); }
     </style>
 
-    <!-- React 18 + ReactDOM -->
+    <!-- React: komponenttipohjainen käyttöliittymä -->
     <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+    <!-- ReactDOM: renderöi React-komponentit selaimeen -->
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
-
-    <!-- Babel -->
+    <!-- Babel: muuntaa JSX:n selainymmärrykseen -->
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
   </head>
   <body class="bg-white">
+    <!-- React-sovellus kiinnittyy tähän -->
     <div id="root"></div>
 
     <script type="text/babel" data-presets="react">
       const { useEffect, useState } = React;
 
+      // Logo: näyttää logon
       function Logo() {
         return (
           <div className="relative h-12 w-12 overflow-hidden rounded-full">
@@ -55,6 +47,7 @@
         );
       }
 
+      // TopBar: yhteystiedot oranssissa yläpalkissa
       function TopBar() {
         return (
           <div className="w-full bg-gradient-to-r from-rose-500 via-orange-500 to-yellow-400 text-white text-sm font-semibold text-center py-2">
@@ -66,6 +59,7 @@
         );
       }
 
+      // Header: yläpalkki ja päävalikko
       function Header({ atTop, activeSection, setActiveSection }) {
         const navItems = [
           { id: "varaus", label: "Varaa risteily" },
@@ -155,6 +149,7 @@ ${isActive
         );
       }
 
+      // Hero: iso kuva ja pääotsikko
       function Hero() {
         return (
           <section className="relative h-[68vh] min-h-[520px] w-full">
@@ -185,6 +180,7 @@ ${isActive
         );
       }
 
+      // Section: otsikko + sisältölohkot
       function Section({ id, title, children }) {
         return (
           <section id={id} className="scroll-mt-32 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
@@ -196,6 +192,7 @@ ${isActive
         );
       }
 
+      // Footer: alatunniste ja yhteystiedot
       function Footer() {
         const year = new Date().getFullYear();
         return (
@@ -231,6 +228,7 @@ ${isActive
         );
       }
 
+      // Gallery: kuvagalleria ja modal
       function Gallery({ modalIdx, setModalIdx }) {
         // Päivitetty 12 toimivaa Unsplash-kuvaa
         const images = Array.from({ length: 13 }, (_, i) => `/lautan_varauskalenteri/kuvat/kuva${i + 1}.jpeg`);
@@ -315,6 +313,7 @@ ${isActive
         );
       }
 
+      // ReservationPage: koko sivun runko
       function ReservationPage() {
         const [atTop, setAtTop] = useState(true);
         const [activeSection, setActiveSection] = useState(null);
@@ -349,7 +348,7 @@ ${isActive
         const navItems = [
           { id: "varaus", label: "Varaa risteily" },
           { id: "hinnasto", label: "Hinnasto" },
-          { id: "saannot", label: "Säännöt" }, // UUSI NAPPULA
+          { id: "saannot", label: "Säännöt" },
           { id: "tarina", label: "Tarina" },
           { id: "galleria", label: "Galleria" },
         ];
@@ -372,7 +371,7 @@ ${isActive
             {modalIdx === null && (
               <>
                 <TopBar />
-                {/* Mobiilivalikko kiinteänä ylhäällä, oranssin palkin alla */}
+                {/* Mobiilissa: valikko näkyy kiinteänä oranssin palkin alla, vain md-kokoon asti */}
                 {atTop && (
                   <nav className="fixed top-[136px] left-0 right-0 z-40 md:hidden flex justify-center pointer-events-auto">
                     <div className="grid grid-cols-2 gap-3 w-full max-w-xs mx-auto mt-2">
@@ -401,7 +400,7 @@ ${isActive
                     </div>
                   </nav>
                 )}
-                {/* Header, siirretään alas mobiilissa */}
+                {/* Mobiilissa: Header siirtyy alemmas, valikko piilossa */}
                 <Header
                   atTop={atTop}
                   activeSection={activeSection}
@@ -412,8 +411,9 @@ ${isActive
             <Hero />
             <main className="relative z-10 bg-white flex-grow">
               <Section id="varaus" title="Varaa risteily">
+                {/* Varauslomake, muokkaa kenttiä ja Formspree-osoite */}
                 <form
-                  action="https://formspree.io/f/myzndywa"
+                  action="https://formspree.io/f/myzndywa" // <-- Muokkaa tähän oma Formspree-osoite
                   method="POST"
                   className="grid gap-6 sm:grid-cols-2"
                 >
@@ -526,6 +526,7 @@ ${isActive
         );
       }
 
+      // Sovelluksen käynnistys
       const root = ReactDOM.createRoot(document.getElementById('root'));
       root.render(<ReservationPage />);
     </script>
